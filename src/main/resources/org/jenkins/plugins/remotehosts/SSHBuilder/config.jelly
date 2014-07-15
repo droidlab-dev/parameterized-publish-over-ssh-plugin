@@ -1,0 +1,43 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+
+
+
+	<f:entry title="Hostname" field="hostname" help="/plugin/ssh/help-hostname.html">
+		<f:textbox name="hostname" onchange="Form.findMatchingInput(this,'serverAliveInterval').onchange()"/>
+	</f:entry>
+	
+	<f:entry title="Port" field="port" help="/plugin/ssh/help-port.html">
+		<f:textbox name="port" onchange="Form.findMatchingInput(this,'serverAliveInterval').onchange()"/>
+	</f:entry>
+	
+	<f:entry title="User Name" field="username" help="/plugin/ssh/help-login.html">
+		<f:textbox name="username" onchange="Form.findMatchingInput(this,'serverAliveInterval').onchange()"/>
+	</f:entry>
+	
+	<f:entry title="Password/Passphrase" field="password" help="/plugin/ssh/help-password.html">
+	<f:password name="password" onchange="Form.findMatchingInput(this,'serverAliveInterval').onchange()" />
+	</f:entry>
+	
+	<f:entry title="Key file" field="keyfile" help="/plugin/ssh/help-keyfile.html">
+		<f:textbox class="setting-input" name="keyfile"
+	 	checkUrl="'${rootURL}/descriptor/SSHBuilder/keyfileCheck?keyfile='+escape(this.value)" onchange="Form.findMatchingInput(this,'serverAliveInterval').onchange()"/>
+	</f:entry>
+	
+	<f:entry title="Pty" field="pty" help="/plugin/ssh/help-pty.html">
+		<f:checkbox class="setting-input" name="pty" onchange="Form.findMatchingInput(this,'serverAliveInterval').onchange()" />
+	</f:entry>
+	
+	<f:entry title="Server Alive Interval" field="serverAliveInterval" help="/plugin/ssh/help-serverAliveInterval.html">
+		<f:textbox name="serverAliveInterval" checkMethod="post"
+		checkUrl="'${rootURL}/descriptor/SSHBuilder/loginCheck?hostname='+escape(Form.findMatchingInput(this,'hostname').value)+'&amp;port='+escape(Form.findMatchingInput(this,'port').value)+'&amp;user='+escape(Form.findMatchingInput(this,'username').value)+'&amp;pass='+escape(Form.findMatchingInput(this,'password').value)+'&amp;keyfile='+escape(Form.findMatchingInput(this,'keyfile').value)" />
+	</f:entry>
+	
+	<f:entry title="SCP commands" field="scpCommand">
+        <f:textarea checkUrl="'${rootURL}/descriptor/SSHBuilder/scpCommandCheck?scpCommand='+escape(this.value)" />
+    </f:entry>
+    
+    <f:entry title="Remote SSH commands" field="command">
+        <f:textarea />
+    </f:entry>
+	
+</j:jelly>
