@@ -10,6 +10,7 @@ import hudson.model.AbstractProject;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
 import hudson.util.FormValidation;
+import hudson.util.FormValidation.Kind;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -251,19 +252,14 @@ public class SSHBuilder extends Builder {
 		 * @param request
 		 * @return
 		 */
-		public FormValidation doLoginCheck(StaplerRequest request) {
-			
-			String hostname = Util.fixEmpty(request.getParameter("hostname"));
-			if (hostname == null) {// hosts is not entered yet
-				return FormValidation.ok();
-			}
+		public FormValidation doConnectionCheck(StaplerRequest request) {
 			
 			if (containsParameterizedValue(request)) {
 				return FormValidation.warning("Parameterized value(s) detected : connection not tested, parameter(s) will be evaluated at the execution time");
 			}
 			
-			SSHChannel site = new SSHChannel(hostname, request.getParameter("port"), request.getParameter("user"), request.getParameter("pass"),
-										request.getParameter("keyfile"), request.getParameter("serverAliveInterval"));
+			SSHChannel site = new SSHChannel(request.getParameter("hostname"), request.getParameter("port"), request.getParameter("username"), request.getParameter("password"),
+											 request.getParameter("keyfile"), request.getParameter("serverAliveInterval"));
 			try {
 				site.testConnection(System.out);
 			} 
@@ -276,7 +272,7 @@ public class SSHBuilder extends Builder {
 				return FormValidation.error("Can't connect to server");
 			}
 		
-			return FormValidation.ok();
+			return FormValidation.respond(Kind.OK, "<font color='green'><b>The connection was successfully established..</b></font>");
 		}
 		
 		/**

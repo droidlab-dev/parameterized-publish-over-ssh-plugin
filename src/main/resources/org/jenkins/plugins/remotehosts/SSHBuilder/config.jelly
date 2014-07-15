@@ -2,36 +2,38 @@
 
 
 
-	<f:entry title="Hostname" field="hostname" help="/plugin/ssh/help-hostname.html">
-		<f:textbox name="hostname" onchange="Form.findMatchingInput(this,'serverAliveInterval').onchange()"/>
+	<f:entry title="Hostname" help="/plugin/remote/help-hostname.html">
+		<f:textbox name="hostname" field="hostname" />
 	</f:entry>
 	
-	<f:entry title="Port" field="port" help="/plugin/ssh/help-port.html">
-		<f:textbox name="port" onchange="Form.findMatchingInput(this,'serverAliveInterval').onchange()"/>
+	<f:entry title="Port"  help="/plugin/remote/help-port.html">
+		<f:textbox name="port" field="port" />
 	</f:entry>
 	
-	<f:entry title="User Name" field="username" help="/plugin/ssh/help-login.html">
-		<f:textbox name="username" onchange="Form.findMatchingInput(this,'serverAliveInterval').onchange()"/>
+	<f:entry title="User Name"   help="/plugin/remote/help-login.html">
+		<f:textbox name="username" field="username" />
 	</f:entry>
 	
-	<f:entry title="Password/Passphrase" field="password" help="/plugin/ssh/help-password.html">
-	<f:password name="password" onchange="Form.findMatchingInput(this,'serverAliveInterval').onchange()" />
+	<f:entry title="Password/Passphrase"   help="/plugin/remote/help-password.html">
+	<f:password name="password" field="password"  />
 	</f:entry>
 	
-	<f:entry title="Key file" field="keyfile" help="/plugin/ssh/help-keyfile.html">
-		<f:textbox class="setting-input" name="keyfile"
-	 	checkUrl="'${rootURL}/descriptor/SSHBuilder/keyfileCheck?keyfile='+escape(this.value)" onchange="Form.findMatchingInput(this,'serverAliveInterval').onchange()"/>
+	<f:entry title="Key file" help="/plugin/remote/help-keyfile.html">
+		<f:textbox class="setting-input" name="keyfile" field="keyfile" 
+	 	checkUrl="'${rootURL}/descriptor/SSHBuilder/keyfileCheck?keyfile='+escape(this.value)" />
 	</f:entry>
 	
-	<f:entry title="Pty" field="pty" help="/plugin/ssh/help-pty.html">
-		<f:checkbox class="setting-input" name="pty" onchange="Form.findMatchingInput(this,'serverAliveInterval').onchange()" />
+	<f:entry title="Pty" field="pty" help="/plugin/remote/help-pty.html">
+		<f:checkbox class="setting-input" name="pty"  />
 	</f:entry>
 	
-	<f:entry title="Server Alive Interval" field="serverAliveInterval" help="/plugin/ssh/help-serverAliveInterval.html">
-		<f:textbox name="serverAliveInterval" checkMethod="post"
-		checkUrl="'${rootURL}/descriptor/SSHBuilder/loginCheck?hostname='+escape(Form.findMatchingInput(this,'hostname').value)+'&amp;port='+escape(Form.findMatchingInput(this,'port').value)+'&amp;user='+escape(Form.findMatchingInput(this,'username').value)+'&amp;pass='+escape(Form.findMatchingInput(this,'password').value)+'&amp;keyfile='+escape(Form.findMatchingInput(this,'keyfile').value)" />
+	<f:entry title="Server Alive Interval" field="serverAliveInterval" help="/plugin/remote/help-serverAliveInterval.html">
+		<f:textbox name="serverAliveInterval" 
+		 />
 	</f:entry>
 	
+	<f:validateButton title="Test Connection" progress="Testing..." method="connectionCheck" with="hostname,port,username,password,keyfile" />
+		
 	<f:entry title="SCP commands" field="scpCommand">
         <f:textarea checkUrl="'${rootURL}/descriptor/SSHBuilder/scpCommandCheck?scpCommand='+escape(this.value)" />
     </f:entry>
