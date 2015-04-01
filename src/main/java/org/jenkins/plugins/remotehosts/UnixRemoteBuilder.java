@@ -63,9 +63,9 @@ import org.kohsuke.stapler.StaplerRequest;
 
 import com.jcraft.jsch.JSchException;
 
-public class SSHBuilder extends Builder {
+public class UnixRemoteBuilder extends Builder {
 
-	public transient static final Logger LOGGER = Logger.getLogger(SSHBuilder.class.getName());
+	public transient static final Logger LOGGER = Logger.getLogger(UnixRemoteBuilder.class.getName());
 	
 	private String scpCommand;
 	private String command;
@@ -96,7 +96,7 @@ public class SSHBuilder extends Builder {
 	 * @param pty
 	 */
 	@DataBoundConstructor
-	public SSHBuilder(String command, String scpCommand, String hostname, String port, String username, String password, String keyfile,
+	public UnixRemoteBuilder(String command, String scpCommand, String hostname, String port, String username, String password, String keyfile,
 			String serverAliveInterval, Boolean pty) {
 		
 		this.scpCommand = scpCommand;
@@ -114,11 +114,13 @@ public class SSHBuilder extends Builder {
 	@Override
 	public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
 
-		// First initialize the executors and deal with "parameterized values" replacement
-		
-		Map<String, String> envVars = prepareExecute(build, listener);		
-		
-		try { // Execute the SCP command to the remote host to prepare the environment
+		try {
+
+			// First initialize the executors and deal with "parameterized values" replacement
+			
+			Map<String, String> envVars = prepareExecute(build, listener);		
+			
+			// Execute the SCP command to the remote host to prepare the environment
 			
 			executeSCP(build, listener, envVars);
 			
@@ -126,9 +128,9 @@ public class SSHBuilder extends Builder {
 
 			executeSSH(listener, envVars);
 		} 
-		catch(SSHBuilderException e) {
+		catch(Exception e) {
 			
-			listener.getLogger().println(e.getMessage());
+			listener.getLogger().println("[ERROR] The secure shell (SSH) execution  generate an unexpected exception" + e.getMessage());
 			return false;
 		}
 		
@@ -214,13 +216,15 @@ public class SSHBuilder extends Builder {
 			List<String> commands = Arrays.asList(scpCommands.split("\n"));
 
 			for (String command : commands) {
-
-				String sourceFile = command.substring(0, command.indexOf(' '));
-				String targetFile = command.substring(command.indexOf(' ') + 1, command.length()).trim();
-
-				FilePath sourceFilePath = JenkinsUtils.getWorkspaceFile(sourceFile, build);
-
-				scpSite.executeCommand(sourceFile, sourceFilePath.read(), sourceFilePath.length(), sourceFilePath.lastModified(), targetFile, logger);
+				if(command.trim().length() > 0 && command.contains(" "))
+				{
+					String sourceFile = command.substring(0, command.indexOf(' '));
+					String targetFile = command.substring(command.indexOf(' ') + 1, command.length()).trim();
+	
+					FilePath sourceFilePath = JenkinsUtils.getWorkspaceFile(sourceFile, build);
+	
+					scpSite.executeCommand(sourceFile, sourceFilePath.read(), sourceFilePath.length(), sourceFilePath.lastModified(), targetFile, logger);
+				}
 			}
 		} 
 		catch (JSchException e) 
@@ -328,9 +332,9 @@ public class SSHBuilder extends Builder {
 							return FormValidation.error("Argument '" + sourceFile + "' is not a valid source file description. Please provide a file path relative to the workspace root.\n" + USAGE);
 						}
 						
-						if (!new File(targetFile).isAbsolute()) {
-							return FormValidation.error("Argument '" + targetFile + "' is not a valid absolute path description for the destination.\n" + USAGE);
-						}
+//						if (!new File(targetFile).isAbsolute()) {
+//							return FormValidation.error("Argument '" + targetFile + "' is not a valid absolute path description for the destination.\n" + USAGE);
+//						}
 					}
 				}
 			}
