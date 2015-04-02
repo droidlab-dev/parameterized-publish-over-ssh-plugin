@@ -114,8 +114,8 @@ public class UnixRemoteBuilder extends Builder {
 	@Override
 	public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
 
-		try {
-
+		try { 
+			
 			// First initialize the executors and deal with "parameterized values" replacement
 			
 			Map<String, String> envVars = prepareExecute(build, listener);		
@@ -126,15 +126,13 @@ public class UnixRemoteBuilder extends Builder {
 			
 			// Finally, let the SSH commands be executed on this remote host
 
-			executeSSH(listener, envVars);
+			return executeSSH(listener, envVars);
 		} 
 		catch(Exception e) {
 			
-			listener.getLogger().println("[ERROR] The secure shell (SSH) execution  generate an unexpected exception" + e.getMessage());
+			listener.getLogger().println("[ERROR] Secure shell (SSH) execution exception : " + e.getMessage());
 			return false;
 		}
-		
-		return true;
 	}
 
 

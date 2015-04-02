@@ -20,7 +20,7 @@
 	
 	<f:entry title="Key file" help="/plugin/remote/help-keyfile.html">
 		<f:textbox class="setting-input" name="keyfile" field="keyfile" 
-	 	checkUrl="'${rootURL}/descriptor/SSHBuilder/keyfileCheck?keyfile='+escape(this.value)" />
+	 	checkUrl="'${rootURL}/descriptor/UnixRemoteBuilder/keyfileCheck?keyfile='+escape(this.value)" />
 	</f:entry>
 	
 	<f:entry title="Pty" field="pty" help="/plugin/remote/help-pty.html">
@@ -35,7 +35,7 @@
 	<f:validateButton title="Test Connection" progress="Testing..." method="connectionCheck" with="hostname,port,username,password,keyfile" />
 		
 	<f:entry title="SCP commands" field="scpCommand">
-        <f:textarea checkUrl="'${rootURL}/descriptor/SSHBuilder/scpCommandCheck?scpCommand='+escape(this.value)" />
+        <f:textarea checkUrl="'${rootURL}/descriptor/UnixRemoteBuilder/scpCommandCheck?scpCommand='+escape(this.value)" />
     </f:entry>
     
     <f:entry title="Remote SSH commands" field="command">

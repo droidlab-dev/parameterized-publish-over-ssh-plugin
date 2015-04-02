@@ -28,10 +28,8 @@ import hudson.FilePath;
 import hudson.Util;
 import hudson.model.AbstractBuild;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.apache.tools.ant.filters.StringInputStream;
 

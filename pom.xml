@@ -31,12 +31,12 @@
 	<parent>
 		<groupId>org.jenkins-ci.plugins</groupId>
 		<artifactId>plugin</artifactId>
-		<version>1.424</version>
+		<version>1.509.4</version>
 	</parent>
 
 	<artifactId>remote</artifactId>
 	<name>Jenkins ssh and scp parameterized plugin</name>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<packaging>hpi</packaging>
 	<url>http://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin</url>
 

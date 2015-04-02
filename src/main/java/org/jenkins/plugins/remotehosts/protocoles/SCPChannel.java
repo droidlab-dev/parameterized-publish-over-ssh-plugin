@@ -25,16 +25,10 @@
 
 package org.jenkins.plugins.remotehosts.protocoles;
 
-import hudson.FilePath;
-import hudson.model.AbstractBuild;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.IOUtils;
